@@ -1,0 +1,449 @@
+<div class="location-information mt-10">
+    <div class="px-10">
+        <div class="boxes">
+            <div class="box bg-bodypattern store-info">
+                <div class="inner-box">
+                    <h4 class="text-[22px]">Address</h4>
+                    <div class="store-address">
+
+                        <div class="ad-icons">
+                            <svg class="w-5 h-5 inline-block mt-1 " aria-hidden="true" focusable="false"
+                                data-prefix="fas" data-icon="map-marker-alt" role="img"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
+                                <path fill="#fff" d="M172.268
+                                501.67C26.97 291.031 0 269.413 0 192 0 85.961
+                                85.961
+                                0 192 0s192 85.961 192 192c0 77.413-26.97
+                                99.031-172.268 309.67-9.535 13.774-29.93
+                                13.773-39.464 0zM192 272c44.183 0 80-35.817
+                                80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80
+                                80
+                                80z"></path>
+                            </svg>
+                        </div>
+                        {{#if (and address.line1 address.line2)}}
+                        <div class="">
+                            <p>{{{address.line1}}}</p>
+                            <p>{{{address.line2}}}</p>
+                            <p><span>{{{address.city}}}</span> <span>{{{address.postalCode}}}</span></p>
+                        </div>
+                        {{else}}
+                        <div class="">
+                            <p>{{{address.line1}}}</p>
+                            <p>{{{address.city}}}</p>
+                            <p>{{{address.postalCode}}}</p>
+                        </div>
+                        {{/if}}
+                    </div>
+                    {{#if mainPhone}}
+                    <div class="store-phone">
+                        <div class="phn-icons">
+                            <div class="phn-icons">
+                                <svg class="w-5 h-5 mt-1 inline-block text-sm" xmlns="http://www.w3.org/2000/svg"
+                                    width="10" height="16" viewBox="0 0 10 16">
+                                    <path id="mobile-alt"
+                                        d="M8.5,0h-7A1.5,1.5,0,0,0,0,1.5v13A1.5,1.5,0,0,0,1.5,16h7A1.5,1.5,0,0,0,10,14.5V1.5A1.5,1.5,0,0,0,8.5,0ZM5,15a1,1,0,1,1,1-1A1,1,0,0,1,5,15Zm3.5-3.375A.376.376,0,0,1,8.125,12H1.875a.376.376,0,0,1-.375-.375V1.875A.376.376,0,0,1,1.875,1.5h6.25a.376.376,0,0,1,.375.375Z"
+                                        fill="#fff" />
+                                </svg>
+                            </div>
+                        </div>
+                        <p><a href="tel:{{mainPhone}}" data-ya-track="phone">{{mainPhone}}</a></p>
+                    </div>
+                    {{/if}}
+                    <ul class="flex flex-row flex-wrap ml-[2.3rem] font-nexa_boldregular
+                    items-center mt-0 gap-4 md:gap-5">
+                        <li><a id="address" class="get-direction-url bg-blue-primary text-sm w-36
+                            md:w-40 xl:w-[177px]  inline-block !leading-8 rounded-sm  lg:py-1 xl:py-0.5
+                            text-white  text-center transition-all transform
+                            hover:scale-[1.09]" href="javascript:void(0);" data-ya-track="directions"
+                                data-placeid="{{googlePlaceId}}" data-latitude="{{geocodedCoordinate.latitude}}"
+                                data-longitude="{{geocodedCoordinate.longitude}}" data-city="{{address.city}}"
+                                data-country="{{address.countryCode}}" data-state="{{address.state}}"
+                                data-addressline1="{{address.line1}}" data-addressline2="{{address.line2}}"
+                                data-postalCode="{{address.postalCode}}">
+                                <svg class="w-4 h-4 inline-block -mt-[3px]" aria-hidden="true" focusable="false"
+                                    data-prefix="fas" data-icon="map-marker-alt" role="img"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
+                                    <path fill="currentColor" d="M172.268
+                                    501.67C26.97 291.031 0 269.413 0 192 0
+                                    85.961 85.961
+                                    0 192 0s192 85.961 192 192c0 77.413-26.97
+                                    99.031-172.268 309.67-9.535 13.774-29.93
+                                    13.773-39.464 0zM192 272c44.183 0 80-35.817
+                                    80-80s-35.817-80-80-80-80 35.817-80 80
+                                    35.817 80 80
+                                    80z"></path>
+                                </svg> Map &amp; Directions</a>
+                        </li>
+                    </ul>
+                    <div>
+                        {{#if c_deliveryServicesDeliverooURL}}
+                        <h4 class="!mb-1.5 mt-7 text-[22px]  text- border-b border-b-drak-blue font-bold">Delivery
+                            Services</h4>
+                        {{else}}
+                        {{#if c_deliveryServicesJustEatURL}}
+                        <h4 class="!mb-1.5 mt-7 text-[22px]  text- border-b border-b-drak-blue font-bold">Delivery
+                            Services</h4>
+                        {{else}}
+                        {{#if c_deliveryServicesUberEatsUrl}}
+                        <h4 class="!mb-1.5 mt-7 text-[22px]  text- border-b border-b-drak-blue font-bold">Delivery
+                            Services</h4>
+                        {{/if}}
+                        {{/if}}
+                        {{/if}}
+                        {{#if c_deliveryServicesDeliverooURL}}
+                        <div class="text-sm text-white py-1.5 px-0.5 rounded-md inline-block"><a
+                                data-ya-track="deliveroo" href="{{c_deliveryServicesDeliverooURL}}" target="_blank">
+                                <img class="inline-block w-[45px] h-auto hover:scale-[1.09] "
+                                    src="{{global.baseUrl}}images/deliveroo.svg" alt="delivero" title="delivero">
+                            </a>
+                        </div>
+                        {{/if}}
+                        {{#if c_deliveryServicesJustEatURL}}
+                        <div class="text-sm text-white py-1.5 px-0.5 rounded-md inline-block"><a
+                                href="{{c_deliveryServicesJustEatURL}}" target="_blank" data-ya-track="justEat">
+                                <img class="inline-block w-[45px] h-auto hover:scale-[1.09]"
+                                    src="{{global.baseUrl}}images/justeats.svg" alt="justeats" title="justeats">
+                            </a>
+                        </div>
+                        {{/if}}
+                        {{#if c_deliveryServicesUberEatsUrl}}
+                        <div class="text-sm text-white py-1.5 px-0 rounded-md inline-block "><a
+                                href="{{c_deliveryServicesUberEatsUrl}}" target="_blank" data-ya-track="uberEats">
+                                <img class="inline-block w-[45px] h-auto hover:scale-[1.09]"
+                                    src="{{global.baseUrl}}images/uber-eats.svg" alt="ubereats" title="ubereats">
+                            </a>
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            <div class="box store-timing">
+                <div class="holiday-cta hidden"><a href="javascript:void(0);" class="popupHoliday" >{{#if c_holiday_label}}{{c_holiday_label}}{{else}}Click For Holiday Hours{{/if}}</a></div>
+                <div class="tabs inner-box">
+
+                    {{#if hours.reopenDate}}
+                    <div class="tab py-0 mt-0 current">
+                        <h4 class="tab-label text-[22px]">{{c_restaurantOrOpeningHours}}</h4>
+                        <div class="tab-content hrs-main" id="hours1-div">
+                            <div class="hours">
+                                {{#if additionalHoursText}} {{additionalHoursText}} {{else}} Temporarily Closed {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                    {{else}}
+                    {{#if c_restaurantOrOpeningHours}}
+                    <div class="tab py-0 mt-0 current">
+                        <h4 class="tab-label text-[22px]">{{c_restaurantOrOpeningHours}}</h4>
+                        <div class="tab-content hrs-main" id="hours1-div">
+                            <div class="hours">
+                                {{>hours hours}}
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{/if}}
+           
+                  
+                    {{#if deliveryHours.reopenDate}}
+                    <div class="tab py-0">
+                        <h4 class="tab-label text-[22px]">>Delivery Hours</h4>
+                        <div class="tab-content  hrs-main" id="hours2-div">
+                            <div class="hours">
+                                {{#if c_additionalDeliveryHoursText}} {{c_additionalDeliveryHoursText}} {{else}}
+                                Temporarily Closed {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                    {{else}}
+                    {{#if deliveryHours}}
+                    <div class="tab py-0">
+                        <h4 class="tab-label text-[22px]">Delivery Hours</h4>
+                        <div class="tab-content  hrs-main" id="hours2-div">
+                            <div class="hours">
+                                {{>deliveryhours deliveryHours}}
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{/if}}
+
+                    {{#if takeoutHours.reopenDate}}
+
+                    <div class="tab py-0">
+                        <h4 class="tab-label text-[22px]">Takeaway Hours</h4>
+                        <div class="tab-content  hrs-main" id="hours3-div">
+                            <div class="hours">
+                                {{#if c_additionalTakeawayHoursText}}{{c_additionalTakeawayHoursText}} {{else}}
+                                Temporarily Closed {{/if}}
+                            </div>
+                        </div>
+                    </div>
+
+                    {{else}}
+
+                    {{#if takeoutHours}}
+                    <div class="tab py-0">
+                        <h4 class="tab-label text-[22px]">Takeaway Hours</h4>
+                        <div class="tab-content  hrs-main" id="hours3-div">
+                            <div class="hours">
+                                {{>takeouthours takeoutHours}}
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{/if}}
+                </div>
+            </div>
+            <div class="box map-info ">
+                <div class="inner-box" id="mapContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="holidayHours-popup" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-hidden fixed top-0 right-0 left-0  w-full sm:inset-0 h-modal h-full bg-black bg-opacity-50 z-[100] justify-center items-start flex">
+    <div class="relative -translate-y-1/2 top-1/2  w-full max-w-full mx-2  sm:max-w-[600px] md:max-w-[600px] max-h-[90vh] overflow-hidden notClickable"
+        style="margin-top: 30px;">
+        <!-- Modal content -->
+        <div class="relative bg-white md:rounded-lg">
+            <!-- Modal header -->
+        <div class="modal-header">
+                <button type="button" class="holidayHours-closeButton  bootbox-cancel">  <svg xmlns="http://www.w3.org/2000/svg" width="20.953" height="20.953" viewBox="0 0 20.953 20.953">
+                    <path id="Icon_ionic-md-close1" data-name="Icon ionic-md-close"
+                    d="M28.477,9.619l-2.1-2.1L18,15.9,9.619,7.523l-2.1,2.1L15.9,18,7.523,26.381l2.1,2.1L18,20.1l8.381,8.381,2.1-2.1L20.1,18Z"
+                    transform="translate(-7.523 -7.523)" fill="#57585A" />
+                </svg></button>              
+            </div>
+           <div class="modal-body"> </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).on('click','#holidayHours-popup',(ele)=>{
+    $('#body').removeClass("overflow-hidden"); $('#holidayHours-popup').addClass("hidden");
+    });
+
+    $(document).on('click','.notClickable',(ele)=>{
+    e.stopPropagation();
+    });
+
+    $(document).on('click',".popupHoliday", function (e) {  
+        $('#holidayHours-popup').removeClass("hidden");
+        $('#body').addClass("overflow-hidden");
+        return false;
+    });
+
+    $(document).on('click',".holidayHours-closeButton ", function (e) { 
+        $('#body').removeClass("overflow-hidden");
+        $('#holidayHours-popup').addClass("hidden");
+    });
+
+    if ($('.store-timing .tabs .tab').length === 1) {
+        $('.store-timing .tabs').addClass('single');
+    }
+    
+
+    let addressLine1 = "{{address.line1}}";
+    let city = "{{address.city}}";
+    let region = "{{address.region}}";
+    let postalCode = "{{address.postalCode}}";
+    let country = "{{countryName address.countryCode}}";
+    let placeId = "{{googlePlaceId}}";
+    let addressString = "";
+    if (addressLine1) addressString = addressLine1;
+    if (city) addressString += (addressString) ? `, ${city}` : city;
+    if (region) addressString += (addressString) ? `, ${region}` : region;
+    if (postalCode) addressString += (addressString) ? `, ${postalCode}` : postalCode;
+    if (country) addressString += (addressString) ? `, ${country}` : country;
+    document.getElementById('mapContainer').innerHTML = '<iframe class="w-full" width="500" height="535" scrolling="no" src="https://maps.google.com/maps?q=' + encodeURIComponent(addressString) + '&en=uk&z=14&output=embed"></iframe>';
+
+    if ($('.tabs.inner-box').text().trim() == '') {
+        $('.tabs.inner-box').parent().remove();
+        $('.map-info').addClass('map-without-hours');
+    } else {
+        window.setTimeout(function () {
+            let HighestTime = false;
+            let HighestOpeningHoursEle = false;
+            let moveElements = false;
+            if ($('.tab.py-0').length > 1) {
+                $('.tab.py-0').each((index, ele) => {
+                    if (!HighestTime || HighestTime == 'Closed') {
+                        HighestTime = $(ele).find('.currentDay span.close-hrs').text().trim();
+                        HighestOpeningHoursEle = ele;
+                        if (index) moveElements = true;
+                    } else {
+                        let tempHighestTime = $(ele).find('.currentDay span.close-hrs').text().trim();
+                        let tempHighestTimeArray = tempHighestTime.split(":");
+                        let HighestTimeArray = HighestTime.split(":");
+                        if ((parseInt(tempHighestTimeArray[0]) > parseInt(HighestTimeArray[0])) || ((parseInt(tempHighestTimeArray[0]) == parseInt(HighestTimeArray[0])) && (parseInt(tempHighestTimeArray[1]) > parseInt(HighestTimeArray[1])))) {
+                            HighestTime = tempHighestTime;
+                            HighestOpeningHoursEle = ele;
+                            moveElements = true;
+                        }
+                    }
+                    if (moveElements) {
+                        let a = $(ele).clone();
+                        $(ele).remove();
+                        a.prependTo('.box.store-timing .tabs');
+                        $('.tabs > .tab').removeClass('current');
+                        $('.tabs > .tab').first().addClass('current');
+                    }
+                });
+            }
+        }, 500);
+    }
+
+    window.getYextTimeWithUtcOffset = function (entityUtcOffsetSeconds) {
+        const now = new Date();
+        let utcOffset = 0;
+        if (entityUtcOffsetSeconds) {
+            utcOffset = entityUtcOffsetSeconds * 1000;
+        }
+        if (utcOffset !== 0) {
+            const localUtcOffset = now.getTimezoneOffset() * 60 * 1000;
+            return new Date(now.valueOf() + utcOffset + localUtcOffset);
+        }
+        return now;
+    };
+    window.parseTimeZoneUtcOffset = function (timeString) {
+        if (!timeString) {
+            return 0;
+        }
+        const parts = timeString.split(":");
+        const hours = parseInt(parts[0].replace(/\u200E/g, ''), 10);
+        const minutes = parseInt(parts[1].replace(/\u200E/g, ''), 10);
+        if (hours < 0) {
+            return -(Math.abs(hours) + minutes / 60) * 60 * 60;
+        }
+        return (hours + minutes / 60) * 60 * 60;
+    };
+    window.dateStringToInt = function (dateString) {
+        return parseInt(dateString.replace(":", ""))
+    };
+    window.getOpenNowString = function (hoursData, utcOffset) {
+        if (!hoursData) {
+            return ""
+        }
+        const now = getYextTimeWithUtcOffset(utcOffset);
+        const tomorrow = new Date(now.getTime() + 60 * 60 * 24 * 1000);
+        const yesterday = new Date(now.getTime() - 60 * 60 * 24 * 1000);
+        const nowTimeNumber = now.getHours() + now.getMinutes() / 60;
+        function getIntervalOnDate(date) {
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+            const dateString = year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
+            const dayOfWeekString = days[date.getDay()];
+            
+            if (hoursData.holidayHours) {
+                for (let i = 0; i < hoursData.holidayHours.length; i++) {
+                    const holiday = hoursData.holidayHours[i];
+                    if (holiday.date == dateString) {
+                        if (holiday.openIntervals) {
+
+                            return holiday.openIntervals;
+
+                        } else if (holiday.isClosed === true) {
+                            return null;
+                        }
+                    }
+                }
+            }
+            if (hoursData[dayOfWeekString] && hoursData[dayOfWeekString].openIntervals) {
+                return hoursData[dayOfWeekString].openIntervals;
+            } else {
+                return null;
+            }
+        }
+        function timeStringToNumber(timeString) {
+            const parts = timeString.split(":");
+            const hours = parseInt(parts[0].replace(/\u200E/g, ''), 10);
+            const minutes = parseInt(parts[1].replace(/\u200E/g, ''), 10);
+            return hours + minutes / 60;
+        }
+        function formatTime(time) {
+            const tempDate = new Date("January 1, 2020 " + time)
+            const localeString = 'en-US';
+            const tempTime = tempDate.toLocaleTimeString(localeString.replace('_', '-'), {
+                hour: "numeric",
+                minute: "numeric",
+                hour12: false
+            });
+            return tempTime;
+        }
+        const intervalsToday = getIntervalOnDate(now);
+        const intervalsTomorrow = getIntervalOnDate(tomorrow);
+        const intervalsYesterday = getIntervalOnDate(yesterday);
+        let openRightNow = false;
+        let currentInterval = null;
+        let nextInterval = null;
+        if (intervalsYesterday) {
+            for (let i = 0; i < intervalsYesterday.length; i++) {
+                const interval = intervalsYesterday[i];
+                const startIntervalNumber = timeStringToNumber(interval.start);
+                const endIntervalNumber = timeStringToNumber(interval.end);
+                if (endIntervalNumber < startIntervalNumber) {
+                    if (nowTimeNumber < endIntervalNumber) {
+                        currentInterval = interval;
+                        openRightNow = true;
+                    }
+                }
+            }
+        }
+        if (intervalsToday) {
+            for (let i = 0; i < intervalsToday.length; i++) {
+                const interval = intervalsToday[i];
+                const startIntervalNumber = timeStringToNumber(interval.start);
+                const endIntervalNumber = timeStringToNumber(interval.end);
+                if (currentInterval == null) {
+                    if (endIntervalNumber < startIntervalNumber) {
+                        if (nowTimeNumber >= startIntervalNumber) {
+                            currentInterval = interval;
+                            openRightNow = true;
+                        }
+                    } else if (nowTimeNumber >= startIntervalNumber &&
+                        nowTimeNumber < endIntervalNumber) {
+                        currentInterval = interval;
+                        openRightNow = true;
+                    }
+                }
+                if (nextInterval == null) {
+                    if (startIntervalNumber > nowTimeNumber) {
+                        nextInterval = interval
+                    }
+                } else {
+                    if (startIntervalNumber > nowTimeNumber &&
+                        startIntervalNumber < timeStringToNumber(nextInterval.start)) {
+                        nextInterval = interval;
+                    }
+                }
+            }
+        }
+        let nextIsTomorrow = false;
+        if (nextInterval == null) {
+            if (intervalsTomorrow) {
+                if (intervalsTomorrow.length > 0) {
+                    nextInterval = intervalsTomorrow[0];
+                    nextIsTomorrow = true;
+                }
+            }
+        }
+        
+    };
+    
+    function formatTimE(time) {
+        const tempDate = new Date("January 1, 2020 " + time)
+        const localeString = 'en-US';
+        const tempTime = tempDate.toLocaleTimeString(localeString.replace('_', '-'), {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: false
+        });
+        return tempTime;
+    }
+</script>

@@ -1,0 +1,83 @@
+{{#if c_restaurantServices}}
+<div class="w-full inline-block relative mt-3 sm:mt-5  lg:mt-0  before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-[554px] before:xl:w-[684px] before:z-0  before:bg-top-pattern  before:bg-no-repeat ">
+    <div class="container-custom  mx-auto">
+        <h2 class=" text-[42px] text-center pt-14 pb-6 uppercase text-[#115EAC] ">Services</h2>
+        <div class="row">
+            <div class=" flex flex-col md:flex-row px-4 lg:px-0  justify-center">
+                {{#each c_restaurantServices}}
+                <div class="w-full md:w-1/3 xl:w-1/3 mx-0 md:mx-2 my-2 lg:my-0  lg:mx-8  bg-white shadow-lg rounded-tl-2xl rounded-br-2xl relative border border-[#f5f5f5]">
+                    {{#if servicePhoto.url}}
+                        <div class="inline-block w-full pt-[57%] relative overflow-hidden h-0 rounded-tl-2xl">                     
+                            <img class="w-full h-full absolute top-0 left-0 rounded-tl-2xl shadow-xl object-cover" alt="dineinservice" title="dineinservice" src="{{servicePhoto.url}}" />
+                        </div>
+                    {{else}}
+                        <div class="inline-block w-full pt-[57%] relative overflow-hidden h-0 rounded-tl-2xl">  
+                            <img class="w-full h-full absolute top-0 left-0 rounded-tl-2xl shadow-xl object-cover" alt="dineinservice" title="dineinservice" src="{{global.baseUrl}}/images/service-defualt.jpg" />
+                        </div>
+                    {{/if}}        
+                    <div class="service-bx">
+                        {{#if serviceName}}<h4>{{serviceName}}</h4>{{/if}}
+                        {{#if serviceText}}<p>{{serviceText}}</p>{{/if}}
+                     
+                        <div class="serv-icn">
+                            {{#if serviceURL.link}}{{#if serviceURL.label}}
+                            <a href="{{#if ( compare(serviceURL.linkType) "OTHER") }}javascript:void(0);{{else}}{{serviceURL.link}}{{/if}}" data-href="{{serviceURL.link}}"
+                                class=" bg-[#115EAC] font-optimabold  bg-opacity-90 rounded py-2  xl:py-3  text-white transition-all transform hover:scale-[1.04] justify-center inline-flex {{#if ( compare(serviceURL.linkType) "OTHER") }}closePopupOrderNow thirdPartyLink{{/if}}" {{#if (compare(serviceURL.linkType) "URL") }} target="_blank" {{/if}}
+								data-ya-track="restaurantServices"
+                                {{#unless ( compare(serviceURL.linkType) "OTHER") }} target="_blank" {{/unless}}
+								>
+                                {{#if ( compare(serviceURL.label) "Order Now" ) }}
+                                    {{#each c_icon}}<img src="{{image.url}}" alt="{{serviceURL.label}}" width="19" height="20"/>{{/each}}
+                                {{/if}}
+                                {{serviceURL.label}}</a>
+                            {{/if}}{{/if}}
+                            {{#if callToAction2.link}}{{#if callToAction2.label}}
+                            <a href="{{#if ( compare(callToAction2.linkType) "OTHER") }}javascript:void(0);{{else}}{{callToAction2.link}}{{/if}}" data-href="{{callToAction2.link}}"
+                                class=" bg-[#115EAC] bg-opacity-90 xl:ml-4 font-optimabold rounded py-2 xl:py-3  text-white transition-all transform hover:scale-[1.09]   justify-center inline-flex {{#if ( compare(callToAction2.linkType) "OTHER") }}closePopupOrderNow thirdPartyLink{{/if}}" {{#if (compare(callToAction2.linkType) "URL") }} target="_blank" {{/if}}
+								data-ya-track="restaurantServices"
+                                {{#unless ( compare(callToAction2.linkType) "OTHER") }} target="_blank" {{/unless}}
+								>
+                                {{#if ( compare(callToAction2.label) "Order Now" ) }}
+                                {{#each c_icon}}<img src="{{image.url}}" alt="{{callToAction2.label}}" width="19" height="20"/>{{/each}}
+                                {{/if}}
+                                {{callToAction2.label}}</a>
+                            {{/if}}{{/if}}
+                        </div>
+                           <div class="allergens-bx">
+                        {{#if allergensLabel}}{{#if allergensURL}}
+                        <a class=""
+                            href="{{allergensURL}}" data-ya-track="Serviceallergens" title="{{allergensLabel}}" onclick="return iframeOpen(this);">{{allergensLabel}}</a>
+                        {{/if}}{{/if}}&nbsp;
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+<div id="allergens1-pdf" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-hidden fixed top-0 right-0 left-0 z-50 w-full sm:inset-0 h-modal h-full bg-black bg-opacity-75 justify-center items-center flex">
+    <div class="relative w-full max-w-2xl  xl:max-w-[69rem] max-h-[90vh] overflow-hidden notClickable">
+        <!-- Modal content -->
+        <div class="relative bg-white md:rounded-lg p-1 md:p-2">
+            <!-- Modal header -->
+            <div class="flex justify-between items-start mb-5">
+                <h3 class="text-optimabold text-4xl text-center py-2 uppercase text-text-blue-dark w-full">Allergens</h3>
+                <button type="button" id="closeButton2" data-modal-toggle="allergens1-pdf"
+                    class="closeButton bg-closeIcon bg-no-repeat bg-center w-7 h-7 bg-[length:24px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20.953" height="20.953" viewBox="0 0 20.953 20.953">
+                        <path id="Icon_ionic-md-close" data-name="Icon ionic-md-close"
+                            d="M28.477,9.619l-2.1-2.1L18,15.9,9.619,7.523l-2.1,2.1L15.9,18,7.523,26.381l2.1,2.1L18,20.1l8.381,8.381,2.1-2.1L20.1,18Z"
+                            transform="translate(-7.523 -7.523)" fill="#115eac" />
+                    </svg>
+                </button>
+            </div>
+			<!-- Modal body -->
+			<iframe class="window_open_pop h-[calc(90vh_-_112px)]" width="500" height="535" id="pdfIframe1"></iframe>
+            <div class="department-error-text  leading-[20px] text-red"></div>
+            <!-- Modal footer -->
+        </div>
+    </div>
+</div>

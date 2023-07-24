@@ -1,0 +1,140 @@
+{{!-- Please validate any customizations with Schema validator! (https://validator.schema.org/) --}}
+<script type="application/ld+json" class="yext-schema-json" data-yext-id="{{id}}">
+{
+  "@context": "https://schema.org",
+  "@id": "{{id}}",
+  "@type": ["Restaurant"],
+  "name": "{{name}}",
+  "telephone": "{{mainPhone}}",
+  "geo": {{>schemaHelpers-geo geocodedCoordinate}},
+ 
+  "openingHoursSpecification": [
+   {{>schemaHelpers-hours hours}} 
+  ]
+
+}
+</script>
+
+{{#if c_restaurantsList}}
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+	  {{#each c_restaurantsList}}
+		  {{#if @last}}
+			  {
+				"@type": "Question",
+				"name": "{{convertRTFToHTML question}}",
+				"acceptedAnswer": {
+				  "@type": "Answer",
+				  "text": "{{convertRTFToHTML answer}}"
+				}
+			  }
+		  {{else}}
+			{
+				"@type": "Question",
+				"name": "{{convertRTFToHTML question}}",
+				"acceptedAnswer": {
+				  "@type": "Answer",
+				  "text": "{{convertRTFToHTML answer}}"
+				}
+			  },
+		  {{/if}}
+	  {{/each}}
+	  ]
+    }
+</script>
+{{/if}}
+{{#if c_restaurantServices}}	
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Service",
+  "serviceType": "Restaurant Services",
+  "provider": {
+    "@type": "Restaurant",
+    "name": "deepblue restaurants"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Restaurant Services",
+    "itemListElement": [
+      {
+        "@type": "OfferCatalog",
+        "name": "Restaurant Services",
+        "itemListElement": [
+		{{#each c_restaurantServices}}
+		   {{#if @last}}				
+				{
+					"@type": "Offer",
+					"itemOffered": {
+					  "@type": "Service",
+					  "name": "{{serviceName}} {{serviceText}}"
+					}
+				}
+			{{else}}
+				{
+					"@type": "Offer",
+					"itemOffered": {
+					  "@type": "Service",
+					  "name": "{{serviceName}} {{serviceText}}"
+					}
+				},
+			{{/if}}
+		{{/each}}  
+          
+        ]
+      }
+    ]
+  }
+}
+</script>
+{{/if}}
+
+{{#if c_facilities}}	
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Service",
+  "serviceType": "Restaurant Facilities",
+  "provider": {
+    "@type": "Restaurant",
+    "name": "deepblue Facilities"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Restaurant Facilities",
+    "itemListElement": [
+      {
+        "@type": "OfferCatalog",
+        "name": "Restaurant Facilities",
+        "itemListElement": [
+		{{#each c_facilities}}
+		   {{#if @last}}				
+				{
+					"@type": "Offer",
+					"itemOffered": {
+					  "@type": "Service",
+					  "name": "{{facilitiesName}}"
+					}
+				}				
+			{{else}}
+				{
+					"@type": "Offer",
+					"itemOffered": {
+					  "@type": "Service",
+					  "name": "{{facilitiesName}}"
+					}
+				},
+			{{/if}}
+		  {{/each}}          
+        ]
+      }
+    ]
+  }
+}
+</script>
+{{/if}}
+
+

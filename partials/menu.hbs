@@ -1,0 +1,161 @@
+      {{#if c_menuItems}}
+	 <div id="menu" class="container-custom  mx-auto">
+    <div class="menu-main-bx ">       
+        <h2 class=" text-4xl text-center py-2 lg:pt-8 lg:pb-5 uppercase text-[#115EAC] ">Menu</h2>
+        <!-- Tabs -->
+        <div class="filterBtns  hidden lg:block">
+            <ul id="tabs"
+                class=" bg-blue-primary flex-wrap  border border-[#707070]  justify-center  lg:px-3 lg:inline-flex rounded-2 lg:rounded-[30px]  py-2 px-1 w-full border-b">
+            {{#each c_menuItems}}
+            {{#each c_menuItemCategory}}
+                <li class="menucat px-0 text-white font-semibold py-2 {{replace this "&" "_"}}" onclick="filterSelection('{{this}}')" data-tabId="{{replace this "&" "_"}}">
+                    <a class="text-white   px-2 xl:p-4 py-2   tab-link cursor-pointer">{{replace this "_" " "}}</a>
+                    </li>
+                {{/each}}
+                {{/each}}
+            </ul>
+        </div>
+        <!-- Tab Contents -->
+        <div class="container menuItems-container hidden lg:block">
+            <div class="p-4 border c_menuItems border-blue-primary lg:border-none flex justify-center w-full flex-wrap">
+                {{#each c_menuItems}}
+                {{#each c_menuItemCategory}}
+                    <div class="filterElements {{replace this "&" "_"}} menu-box">
+                        {{#if c_menuImage.url}}
+                        <div class="menu-img"> <img src="{{c_menuImage.url}}" alt="menuimg" title="menu"></div>
+                        {{else}}
+                        <div class="menu-img"> <img src="{{global.baseUrl}}images/altmenu.jpg" alt="menuimg" title="menu"></div>
+                        {{/if}}
+                        <h4>{{name}}</h4>
+                    </div>
+                {{/each}}
+                {{/each}}
+            </div>
+        </div>
+           
+        <div class="custom-accordion lg:hidden"></div>
+        <div class="allergens-sec">
+            <ul >
+                {{#if c_menuAllergens.label}}{{#if c_menuAllergens.link}}
+                <li><a class="bg-filterIcon  bg-no-repeat bg-left bg-[length:24px_auto]  leading-8 lg:leading-[26px] w-auto my-2 lg:my-0 h-8 lg:h-auto"
+                        data-modal-toggle="allergens-pdf" id="allergens-con" href="javascript:void(0);" data-ya-track="allergens"> {{c_menuAllergens.label}}</a>
+                </li> {{/if}}{{/if}}
+               {{#if c_restaurantServices}}
+               {{#each c_restaurantServices}}
+                <li><a href={{serviceURL.link}}> {{serviceName}}</a></li>
+                {{/each}}
+               {{/if}}
+            </ul>
+        </div>
+    </div>
+</div>
+{{/if}}
+<script>
+    // note this array has outer scope
+        var html = "";
+        var tabs = {};
+        $('.menucat').each(function(){
+            var tabid = $(this).attr('data-tabId'); 
+            var tab_html = $(this).html();               
+            tabs[tabid] = tab_html;      
+        });
+        for (var key of Object.keys(tabs)) {
+            //console.log(key + " -> " + tabs[key])
+            html += tabs[key];  
+            var container = "";
+             $('.c_menuItems').find('.'+key).each(function(){                
+                container += '<div class="filterElements menu-box">'+$(this).html()+'</div>'; 
+            });
+            html += '<div class="accordion-content"><div class="flex flex-wrap w-full justify-center">'+container+'</div></div>';    
+        }
+        $('.custom-accordion').html(html);
+        $('.custom-accordion').on('click', '.tab-link', function(){
+            $('.tab-link').removeClass('active');
+            $('.accordion-content').hide();
+            $(this).addClass('active').next().show();
+
+        });
+
+        $('.custom-accordion').on('click', '.tab-link.active', function(){
+            $('.accordion-content').hide();
+            $('.tab-link').removeClass('active');
+        });  
+</script>
+<div id="allergens-pdf" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-hidden fixed top-0 right-0 left-0 z-50 w-full sm:inset-0 h-modal h-full bg-black bg-opacity-75 justify-center items-center flex">
+    <div class="relative w-full max-w-2xl  xl:max-w-[69rem] max-h-[90vh] overflow-hidden notClickable">
+        <!-- Modal content -->
+        <div class="relative bg-white md:rounded-lg p-1 md:p-2">
+            <!-- Modal header -->
+            <div class="flex justify-between items-start mb-5">
+                {{#if c_menuAllergens.link}}{{#if c_menuAllergens.label}}
+                <h3 class=" text-optimabold text-4xl text-center py-2 uppercase text-text-blue-dark w-full">Allergens
+                </h3>
+                {{/if}}{{/if}}
+                <button type="button" id="closeButton" data-modal-toggle="allergens-pdf"
+                    class="closeButton bg-closeIcon bg-no-repeat bg-center w-7 h-7 bg-[length:24px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20.953" height="20.953" viewBox="0 0 20.953 20.953">
+                        <path id="Icon_ionic-md-close" data-name="Icon ionic-md-close"
+                            d="M28.477,9.619l-2.1-2.1L18,15.9,9.619,7.523l-2.1,2.1L15.9,18,7.523,26.381l2.1,2.1L18,20.1l8.381,8.381,2.1-2.1L20.1,18Z"
+                            transform="translate(-7.523 -7.523)" fill="#115eac" />
+                    </svg>
+                </button>
+            </div>
+			<!-- Modal body -->
+			{{#if c_menuAllergens.link}}<iframe class="window_open_pop h-[calc(90vh_-_112px)]" width="500" height="535" id="pdfIframe"></iframe>{{/if}}	
+            <div class="department-error-text  leading-[20px] text-red">
+            </div>
+            <!-- Modal footer -->
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById("allergens-con")?.addEventListener("click", function () {
+        if(document.getElementById('pdfIframe')){
+            document.getElementById('pdfIframe').src = "{{c_menuAllergens.link}}#toolbar=0&navpanes=0&scrollbar=0&zoom=100";
+        }
+        
+        document.getElementById('allergens-pdf').classList.remove("hidden");
+        document.getElementById('body').classList.add("overflow-hidden");
+    }, { passive: true });
+
+    document.getElementById("closeButton").addEventListener("click", function () {
+        document.getElementById('allergens-pdf').classList.add("hidden");
+        document.getElementById('body').classList.remove("overflow-hidden");
+    }, { passive: true });
+
+
+    document.getElementById("allergens-top")?.addEventListener("click", function () {
+        document.getElementById('allergens-pdf').classList.remove("hidden");
+        document.getElementById('body').classList.add("overflow-hidden");
+    }, { passive: true });
+
+    document.getElementById("closeButton").addEventListener("click", function () {
+        document.getElementById('allergens-pdf').classList.add("hidden");
+        document.getElementById('body').classList.remove("overflow-hidden");
+    }, { passive: true });
+</script>
+{{!-- script to remove duplicate li value --}}
+<script>
+{{#if c_menuItems}}  
+    $( document ).ready(function() {
+      filterSelection(`{{c_menuItems.[0].c_menuItemCategory.[0]}}`);
+    })
+    var liText = '', liList = $('#tabs li'), listForRemove = [];
+    $(liList).each(function () {
+        var text = $(this).text();
+        if (liText.indexOf('|' + text + '|') == -1)
+            liText += '|' + text + '|';
+        else
+            listForRemove.push($(this));
+    });
+    $(listForRemove).each(function () { $(this).remove(); });
+    {{!-- script to filter data --}}
+    function filterSelection(c) {
+        $(".filterElements").removeClass('show');
+        $(".filterElements."+c).addClass('show');
+        $(".menucat").removeClass('active');
+        $(".menucat."+c).addClass('active');
+    }
+{{/if}}
+</script>

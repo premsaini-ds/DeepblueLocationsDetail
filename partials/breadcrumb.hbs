@@ -1,0 +1,13 @@
+<div class="breadcrumb">
+    <div class="px-10">
+        <div class="boxes">
+            <ul>
+                <li><a href="{{global.homeUrl}}" data-ya-track="breadcrumb1">Home</a></li>
+                {{!-- <li><a href="{{global.baseUrl}}">Locations</a></li> --}}
+                <li><a href="{{global.baseUrl}}{{dm_directoryParents.[1].slug}}" data-ya-track="breadcrumb2">{{dm_directoryParents.[1].name}}</a></li>
+                <li><a href="{{global.baseUrl}}{{dm_directoryParents.[2].slug}}" data-ya-track="breadcrumb3">{{dm_directoryParents.[2].name}}</a></li>
+                <li>{{formatOption name}}</li> 
+            </ul>
+        </div>
+    </div>
+</div>

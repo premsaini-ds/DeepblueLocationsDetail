@@ -1,0 +1,19 @@
+<div class="hero">
+     {{#if c_bannerImage.url}}
+        <img class="hero-img" src="{{c_bannerImage.url}}" alt="banner" title="bannerimg"/>
+     {{else}}
+          <img class="hero-img" src="{{global.baseUrl}}images/hero-banner.jpg" alt="banner" title="bannerimg"/>
+      {{/if}}
+    <div class="w-full   flex items-center justify-center py-12 2xl:pb-11 ">
+     <div class="mx-2 text-center">
+        <h1>{{name}}</h1>
+        {{#if c_cTAButton.link}}{{#if c_cTAButton.label}}
+       <div class="w-56 mb-4 mx-auto"> <a  data-ya-track="order"  class="btn-hero closePopupOrderNow  bg-[#f9c85f]  text-base font-optimanormal uppercase  text-text-blue-dark btn-outline-secondary nav-link  !border-2 border-[#f9c85f] hover:bg-[#f9c85f] " data-href="{{c_cTAButton.link}}" href="javascript:void(0);" > {{c_cTAButton.label}}</a></div>
+        {{/if}}{{/if}}
+        <p>{{c_tagline}}</p>
+    {{!-- <div class="answers-layout">
+      <div class="search-bar"></div>
+    </div> --}}
+</div>
+    </div>
+</div>

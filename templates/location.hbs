@@ -1,0 +1,204 @@
+---
+{
+"stream":{
+   "$id":"deepbluelocation",
+   "source":"knowledgeGraph",
+   "destination":"pages",
+   "filter":{
+      "entityTypes":["restaurant"],
+      "savedFilterIds":["1237283431"]
+   },
+   "fields":[
+      "id",
+      "uid",
+      "meta",
+      "name",
+      "mainPhone",
+      "address",
+      "description",
+      "hours",
+      "photoGallery",
+      "logo",
+      "slug",
+      "googlePlaceId",
+      "geocodedCoordinate",
+      "yextDisplayCoordinate",
+      "services",
+      "c_additionalTakeawayHoursText",
+      "c_additionalDeliveryHoursText",
+      "neighborhood",
+      "c_tagline",
+      "c_cTAButton",
+      "c_heading",
+      "c_subHeading",
+      "c_description",
+      "takeoutHours",
+      "deliveryHours",
+      "additionalHoursText",
+      "c_restaurantServices",
+      "c_images",
+      "c_bannerImage",
+      "c_facilities",
+      "c_metaTitle",
+      "c_metaDescription",
+      "c_canonical",
+      "c_icon",
+      "c_deliveryServicesUberEatsUrl",
+      "c_deliveryServicesJustEatURL",
+      "c_deliveryServicesDeliverooURL",
+      "dm_directoryParents.name",
+      "dm_directoryParents.slug",
+      "c_menuAllergens",
+      "c_restaurantsList.question",
+      "c_restaurantsList.answer",
+      "c_viewMoreFAQs",
+      "c_menuItems.name",
+      "c_menuItems.slug",
+      "c_menuItems.c_menuImage",
+      "c_menuItems.c_menuItemCategory",
+      "c_footerDB.c_footerLinks",
+      "c_footerDB.c_contact",
+      "c_footerDB.facebookPageUrl",
+      "c_footerDB.twitterHandle",
+      "c_footerDB.instagramHandle",
+      "c_footerDB.c_copyright",
+      "c_footerDB.c_home",
+      "c_footerDB.c_about",
+      "c_footerDB.c_location",
+      "c_footerDB.c_more1",
+      "c_footerDB.c_more",
+      "c_footerDB.c_orderOnline",
+      "c_footerDB.c_popUpSubheading",
+      "c_footerDB.c_popUpHeading",
+      "paymentOptions",
+	   "c_restaurantOrOpeningHours",
+      "c_holiday_pop_up_title",
+      "c_holiday_name",
+      "c_holiday_label"
+   ],
+   "localization": {
+      "locales": ["en_gb"]
+      }
+   },
+   "urlFormat":"{{#if slug}}{{slug}}{{else}}{{id}}-{{replace name ' ' '-'}}{{/if}}"
+}
+---
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   {{>head}}
+   {{#if c_metaTitle}}
+   <title>{{c_metaTitle}}</title>
+   <meta name="title" content="{{c_metaTitle}}" />
+   <meta property="og:title" content="{{c_metaTitle}}" />
+   <meta name="twitter:title" content="{{c_metaTitle}}" />
+   {{else}}
+   <title>{{name}} | Great British Fish & Chips</title>
+   <meta name="title" content="{{name}} | Great British Fish & Chips" />
+   <meta property="og:title" content="{{name}} | Great British Fish & Chips"  />
+   <meta name="twitter:title" content="{{name}} | Great British Fish & Chips" />
+   {{/if}}
+
+   {{#if c_metaDescription}}
+   <meta name="description" content="{{c_metaDescription}}" />
+   <meta property="og:description" content="{{c_metaDescription}}" />
+   <meta name="twitter:description" content="{{c_metaDescription}}" />
+   {{else}}
+   <meta name="description" content="Visit your {{name}} at {{#if address.city}}{{address.city}}{{/if}}  for Great British Fish and Chips. Find our menu, order takeaway or collection, and more." />
+   <meta property="og:description" content="Visit your {{name}} at {{#if address.city}}{{address.city}}{{/if}}  for Great British Fish and Chips. Find our menu, order takeaway or collection, and more." />
+   <meta name="twitter:description" content="Visit your {{name}} at {{#if address.city}}{{address.city}}{{/if}}  for Great British Fish and Chips. Find our menu, order takeaway or collection, and more." />
+   {{/if}}
+
+   {{#if c_canonical}}
+   <link rel="canonical" href="{{c_canonical}}" />
+   {{else}}
+   <link rel="canonical" href="{{global.baseUrl}}{{#if slug}}{{slug}}{{else}}{{id}}-{{replace name " " "-"}}{{/if}}" />
+   {{/if}}
+
+   <meta name="twitter:card" content="summary">
+   <meta property="og:image" content="{{global.baseUrl}}images/answer_logo.png" />
+   <meta name="twitter:image" content="{{global.baseUrl}}images/answer_logo.png" />
+   <meta name="twitter:url" content="{{global.baseUrl}}{{#if slug}}{{slug}}{{else}}{{id}}-{{replace name " " "-"}}{{/if}}" />
+   <meta property="og:url" content="{{global.baseUrl}}{{#if slug}}{{slug}}{{else}}{{id}}-{{replace name " " "-"}}{{/if}}" />
+   {{>schema}}
+   <script type="application/ld+json">
+		{
+		 "@context": "https://schema.org",
+		 "@type": "BreadcrumbList",
+		 "itemListElement":
+		 [
+		    
+		  {{#each dm_directoryParents}}
+		  {{#unless @first}}
+		  {
+		  "@type": "ListItem",
+		  "position": "{{#if @last}}2{{else}}1{{/if}}",
+		  "item":
+		   {
+			 "@id": "{{global.baseUrl}}{{slug}}",
+			 "name": "{{this.name}}"
+		   }
+		  },
+		  {{/unless}}
+		  {{/each}}
+		  {
+		  "@type": "ListItem",
+		  "position": 3,
+		  "item":
+		   {
+			 "@id": "{{global.baseUrl}}{{#if slug}}{{slug}}{{else}}{{id}}-{{replace name " " "-"}}{{/if}}",
+			 "name": "{{name}}"
+		   }
+		  }
+		 ]
+		}
+	</script>
+</head>
+
+<body id="body" class="location-page">
+   {{>header}}
+   {{>hero}}
+   {{>location_information-without-allergens}}
+   {{>services}}
+   {{>about}}
+   {{>menu}}
+   {{>facilities}}
+   {{>faq}}
+   {{>nearby geocodedCoordinate=geocodedCoordinate id=id}}
+   {{>breadcrumb}}
+   {{>footer}}   
+   <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.7/dist/js/splide.min.js"></script> 
+   <script>
+      {{#if c_images}}
+      var splide = new Splide('#splide', {
+         perPage: 1,
+         perMove: 1,
+         pagination: false,
+         lazyLoad: 'nearby',
+         arrows: ($("ul.splide__list li").length > 1)?true:false,
+         breakpoints: {
+            1279: {perPage: 1,},
+            767: {perPage: 1,},
+            575: {
+               perPage: 1,
+               focus: 'center',
+               padding: '0px',
+               type: 'loop',
+            }
+         },
+      });
+      splide.mount();{{/if}}	  
+
+      document.getElementById("order-top")?.addEventListener("click", function () {
+         document.getElementById('order-popup').classList.remove("hidden");
+         document.getElementById('body').classList.add("overflow-hidden");
+      }, { passive: true });
+
+      document.getElementById("allergens-top1")?.addEventListener("click", function () {
+         document.getElementById('order-popup').classList.remove("hidden");
+         document.getElementById('body').classList.add("overflow-hidden");
+      }, { passive: true });
+   </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+---
+{
+    "stream": {
+        "$id": "restaurents-directory",
+        "source": "knowledgeGraph",
+        "destination": "pages",
+        "filter" : {
+            "entityTypes": [ "ce_country"],
+            "savedFilterIds":[ "dm_restaurents-directory_address_countrycode" ]
+        },
+        "fields": [
+            "id",
+            "uid",
+            "meta",
+            "name",
+            "address",
+            "mainPhone",
+            "slug",
+            "c_bannerImage",
+            "c_metaTitle",
+            "c_metaDescription",
+            "c_canonical",
+            "c_footerDB.c_footerLinks",
+            "c_footerDB.c_contact",
+            "c_footerDB.facebookPageUrl",
+            "c_footerDB.twitterHandle",
+            "c_footerDB.instagramHandle",
+            "c_footerDB.c_copyright",
+            "dm_directoryParents.name",
+            "dm_directoryParents.slug",
+            "dm_directoryChildren.name",
+            "dm_directoryChildren.address",
+            "c_addressCountryDisplayName",
+            "dm_directoryChildren.slug",
+            "dm_directoryChildren.dm_directoryChildren.name",
+            "dm_directoryChildren.dm_directoryChildrenCount",
+            "c_footerDB.c_home",
+            "c_footerDB.c_about",
+            "c_footerDB.c_location",
+            "c_footerDB.c_more1",
+            "c_footerDB.c_more",
+            "c_footerDB.c_orderOnline",
+            "c_footerDB.c_popUpSubheading",
+            "c_footerDB.c_popUpHeading",
+            "dm_directoryChildren.dm_directoryChildren.slug"
+        ],
+        "localization": {
+            "locales": [ "en_gb"]
+        }
+    },
+    "urlFormat": "{{#if slug}}{{slug}}{{else}}{{name}}{{/if}}"
+}
+---
+<!DOCTYPE html>
+<html lang={{locale}}>
+<head>
+   {{>head}}
+  {{#if c_metaTitle}}
+   <title>{{c_metaTitle}}</title>
+   <meta name="title" content="{{c_metaTitle}}" />
+   <meta property="og:title" content="{{c_metaTitle}}" />
+   <meta name="twitter:title" content="{{c_metaTitle}}" />
+   {{else}}
+   <title>{{c_addressCountryDisplayName}} | Great British Fish & Chips</title>
+   <meta name="title" content="{{c_addressCountryDisplayName}} | Great British Fish & Chips" />
+   <meta property="og:title" content="{{c_addressCountryDisplayName}} | Great British Fish & Chips"  />
+   <meta name="twitter:title" content="{{c_addressCountryDisplayName}} | Great British Fish & Chips" />
+   {{/if}}
+   {{#if c_metaDescription}}
+   <meta name="description" content="{{c_metaDescription}}" />
+   <meta property="og:description" content="{{c_metaDescription}}" />
+   {{else}}
+   <meta name="description" content="Visit your {{name}} at {{dm_directoryParents.name}} for Great British Fish and Chips. Find our menu, order takeaway or collection, and more." />
+   <meta property="og:description" content="Visit your {{name}} at {{dm_directoryParents.name}} for Great British Fish and Chips. Find our menu, order takeaway or collection, and more." />
+   {{/if}}
+   {{#if c_canonical}}
+   <link rel="canonical" href="{{c_canonical}}" />
+   {{else}}
+   <link rel="canonical" href="{{global.baseUrl}}{{#if slug}}{{slug}}{{else}}{{name}}{{/if}}" />
+   {{/if}}
+   
+   <meta property="og:url" content="{{global.baseUrl}}{{#if slug}}{{slug}}{{else}}{{name}}{{/if}}" />
+   <meta name="twitter:card" content="summary">
+   <meta property="og:image" content="{{global.baseUrl}}images/answer_logo.png" />
+   <meta name="twitter:image" content="{{global.baseUrl}}images/answer_logo.png" />
+   <meta name="twitter:url" content="{{global.baseUrl}}{{#if slug}}{{slug}}{{else}}{{name}}{{/if}}" />
+   <script type="application/ld+json">
+		{
+		 "@context": "https://schema.org",
+		 "@type": "BreadcrumbList",
+		 "itemListElement":
+		 [
+		  {{#each dm_directoryParents}}
+		  {{#unless @first}}
+		  {
+		  "@type": "ListItem",
+		  "position": "{{#if @last}}2{{else}}1{{/if}}",
+		  "item":
+		   {
+			 "@id": "{{global.baseUrl}}{{#if slug}}{{slug}}{{else}}{{name}}{{/if}}",
+			 "name": "{{this.name}}"
+		   }
+		  },
+		  {{/unless}}
+		  {{/each}}
+		  {
+		  "@type": "ListItem",
+		  "position": 3,
+		  "item":
+		   {
+			 "@id": "{{global.baseUrl}}{{#if slug}}{{slug}}{{else}}{{name}}{{/if}}",
+			 "name": "{{name}}"
+		   }
+		  }
+		 ]
+		}
+	</script>
+</head>
+<body>
+    {{>header}}
+    <div class="hero">
+        {{#if c_bannerImage.url}}
+            <img class="hero-img" src="{{c_bannerImage.url}}" alt="banner" title="bannerimg"/>
+         {{else}}
+             <img class="hero-img" src="{{global.baseUrl}}images/hero-banner.jpg" alt="banner" title="bannerimg"/>
+        {{/if}}
+    <div class="w-full  bg-opacity-30 bg-blue-primary flex items-center
+        justify-center py-12 2xl:pb-11">
+        <div class="mx-2 text-center">
+             <h1 class="h1 text-center mb-10">{{c_addressCountryDisplayName}}</h1>
+        </div>
+    </div>
+</div>
+
+    <div class="breadcrumb">
+        <div class="px-10">
+            <div class="boxes">
+                <ul>
+                    <li><a href="{{global.homeUrl}}" data-yext-analytics="home">Home</a></li>
+                    <li>{{formatOption name}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="w-full mb-auto">
+        <div class="container-custom mx-auto">
+            <div class="menu-main-bx  mb-20">
+                <ul id="city-list" class="city-list text-[13px] md:text-[15px] justify-center flex flex-wrap -mx-2 "> 
+                    {{#each dm_directoryChildren}} 
+                    <li class="storelocation-category" >
+                        <a href="{{global.baseUrl}}{{#if slug}}{{slug}}{{else}}{{dm_directoryParents.[1].slug}}/{{name}}{{/if}}" data-yext-analytics="getRegionDetailPage" class="transition-all duration-300 hover:text-blue">{{name}} ({{dm_directoryChildrenCount}})</a>
+                    </li>
+                    {{/each}}
+                </ul> 	
+            </div>
+        </div>
+    </div>
+    {{>footer}}
+    <script>
+        document.getElementById("order-top")?.addEventListener("click", function () {
+            document.getElementById('order-popup').classList.remove("hidden");
+            document.getElementById('body').classList.add("overflow-hidden");
+        }, { passive: true });
+        $(document).on('click',".closeButton1", function () {
+            document.getElementById('order-popup').classList.add("hidden");
+            document.getElementById('body').classList.remove("overflow-hidden");
+        });
+    </script>
+</body>
+</html>

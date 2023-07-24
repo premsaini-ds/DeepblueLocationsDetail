@@ -1,0 +1,96 @@
+
+{{#with (formatHours this "Monday" "TimeFormatShort" "DateFormatShort") }}
+{{#each this.regularHours}}
+<div class="{{this.displayDay}} time-row"
+  data-day="{{this.displayDay}}">
+  <div class="day">{{this.displayDay}}</div>
+  <div class="store-time-main">
+  {{#if this.isClosed}}Closed{{/if}}
+  {{#if this.is247}}Open 24/7{{/if}}
+  {{#each this.openIntervals}}
+  <div class="store-time"> 
+<span class="open-hrs">{{this.start}} </span>
+<span class="saprate"> - </span>
+<span class="close-hrs">{{this.end}}  </span>
+ </div>
+  {{/each}}  
+  </div>
+</div>
+{{/each}}
+{{/with}}
+<script>
+  function delConvertDays(days) {
+      const currentDate = new Date();
+      const dayNumber = currentDate.getDay();
+      const currentSelectedDay = days[dayNumber];
+      const beforeSelected = days.slice(0,dayNumber);
+      const afterSelected = days.slice(dayNumber,days.length);
+      beforeSelected.forEach((element)=>{
+        afterSelected.push(element);
+      });
+      return {
+        afterSelected:afterSelected
+      };
+    }
+
+    var days_string =['Sunday', 'Monday','Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    $('#hours2-div .hours .time-row').each(function() {
+      
+    var day = $(this).attr('data-day');
+    
+    var today = new Date();
+    var dayName = days_string[today.getDay()];
+
+        
+    if(day){              
+      if(dayName == day){       
+        $(this).addClass('currentDay'); 
+        $(this).clone().prependTo( "#hours2-div .hours" );
+        $(this).remove();     
+      }
+    }else{
+      
+      if(dayName == day){       
+        $(this).addClass('currentDay'); 
+        $(this).clone().prependTo( "#hours2-div .hours" );
+        $(this).remove();     
+      }
+      
+    }
+    
+  });
+
+    let deliveryWeek = [];
+    let  deliveryCurrentDate  = new Date().getDate();
+    for (let i = 0; i <= 6; i++) {
+      let first =  deliveryCurrentDate + i ; 
+      let daydate = new Date(new Date().setDate(first)).toISOString().slice(0, 10);
+      deliveryWeek.push(daydate);
+    }
+    
+    // console.log(week);      
+    var dates = deliveryWeek;
+    
+    const convertedDaysb = delConvertDays(days_string);
+    const daysb = convertedDaysb.afterSelected;
+
+
+        let deltime_html = '';
+        for (let i = 0; i < daysb.length; i++) {
+        let currentDay = '';
+
+        if(i == 0){
+          currentDay = 'currentDay';
+        }
+
+         var day_date  = deliveryWeek[i];     
+
+        deltime_html += '<div data-date="'+day_date+'" class="time-row  '+currentDay+' '+day_date+' " >'
+        deltime_html += $('#hours2-div .hours').find('.'+daysb[i]).html();
+        deltime_html += '</div>';
+
+     }
+  
+  $('#hours2-div .hours').html(deltime_html);
+
+</script>

@@ -1,0 +1,374 @@
+<div class="nearbydiv hidden">
+    <div class="nearby-sec">
+        <div class="container-custom mx-auto">
+            <div class="w-full text-center">
+                <h3>NEARBY LOCATIONS</h3>
+            </div>
+            <div id="splide-near" class="splide ">
+                <div class="splide__track">
+                    <ul class="splide__list location-data">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.7/dist/js/splide.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var baseURL = "https://liveapi.yext.com/v2/accounts/me/entities/geosearch?";
+        var api_key = "{{global.liveApiKey}}";
+        var vparam = "20181017";
+        var lat = "{{yextDisplayCoordinate.latitude}}";
+        var lng = "{{yextDisplayCoordinate.longitude}}";
+        var location = lat + ", " + lng;
+        var limit = 3;
+        var radius = 2000;
+        var savedFilterIds = "1237283431";
+        var entityTypes = "restaurant";
+        var fields = "name,hours,slug,neighborhood,address,mainPhone,geomodifier,timeZoneUtcOffset,geocodedCoordinate,yextDisplayCoordinate,googlePlaceId";
+        const savedSearchIdString = "";
+        var fullURL = baseURL + `api_key=${api_key}&v=${vparam}&limit=${limit}&radius=${radius}&entityTypes=${entityTypes}&filter={"entityId":{"!$eq":"{{id}}"}}&resolvePlaceholders=true` + "&fields=" + fields + "&location=" + location;
+        if (savedFilterIds) { fullURL += "&savedFilterIds=" + savedFilterIds }
+        $(".location-data").html('<div class="col">Loading...</div>');
+
+        fetch(fullURL).then(response => response.json()).then(data => {
+            //entities = data.response.entities;
+            entities = data.response.entities;
+            $(".location-data").empty();
+            //[].slice.call(document.querySelectorAll(".location-data") || []).forEach(function (el) {el.innerHTML = "";});
+
+            if (entities.length == 0) {
+                $(".nearbydiv").remove();
+                //$(".location-data").html(`<div class="col">No Locations Found</div>`);
+            } else {
+                for (var i = 0; i < entities.length; i++) {
+                    location = entities[i];
+                    locationHTML = "";
+                    if (true) {
+                        $('.nearbydiv').removeClass('hidden');
+
+                        let line1 = (typeof location.address.line1 != 'undefined') ? location.address.line1 : "";
+                        let line2 = (typeof location.address.line2 != 'undefined') ? location.address.line2 : "";
+                        let postalCode = (typeof location.address.postalCode != 'undefined') ? location.address.postalCode : "";
+                        let city = (typeof location.address.city != 'undefined') ? location.address.city : "";
+                        let region = (typeof location.address.region != 'undefined') ? location.address.region : "";
+                        let country = (typeof location.address.countryCode != 'undefined') ? location.address.countryCode : "";
+                        let placeId = (typeof location.googlePlaceId != 'undefined') ? location.googlePlaceId : "";
+                        let mainPhone1 = "";
+                        if (typeof location.mainPhone != "undefined") {
+                            mainPhone1 = '<div class="store-phone"><svg xmlns="http://www.w3.org/2000/svg" width="15.35" height="23.96" viewBox="0 0 14.35 22.96"><path id="Icon_awesome-mobile-alt" data-name="Icon awesome-mobile-alt" d="M12.2,0H2.152A2.153,2.153,0,0,0,0,2.152V20.807A2.153,2.153,0,0,0,2.152,22.96H12.2a2.153,2.153,0,0,0,2.152-2.153V2.152A2.153,2.153,0,0,0,12.2,0ZM7.175,21.525A1.435,1.435,0,1,1,8.61,20.09,1.433,1.433,0,0,1,7.175,21.525ZM12.2,16.682a.54.54,0,0,1-.538.538H2.691a.54.54,0,0,1-.538-.538V2.691a.54.54,0,0,1,.538-.538h8.969a.54.54,0,0,1,.538.538Z" fill="#fff" /></svg><p><a href="tel:' + location.mainPhone + '" class="phone" data-ya-track="phone">' + location.mainPhone + '</a></p></div>'
+                        }
+
+                        let getdirection = '<a data-ya-track="nearby_directions" data-placeid="' + placeId + '"  data-latitude="' + location.yextDisplayCoordinate.latitude + '" data-longitude="' + location.yextDisplayCoordinate.longitude + '" data-country="' + country + '" data-state="' + region + '" data-city="' + city + '" data-postalcode="' + postalCode + '" data-addressline1="' + line1 + '" data-addressline2="' + line2 + '" href="javascript:void(0);" class="direction get-direction-url">Get Directions<svg xmlns="http://www.w3.org/2000/svg" width="16.843" height="11.547" viewBox="0 0 13.843 9.547"><path id="Icon_ionic-md-arrow-forward" data-name="Icon ionic-md-arrow-forward" d="M-.023,11.347H11.523L8.181,14.688l.865.835L13.82,10.75,9.046,5.977l-.835.835,3.312,3.342H-.023Z" transform="translate(0.023-5.977)" /></svg></a>';
+
+                        locationHTML =
+                            '<li class="splide__slide"><div class="near-location"><h4><a href="{{global.baseUrl}}' + (location.slug ? location.slug : `${location.meta.id}-${location.name}`) + '" data-ya-track="restaurantDetailPage">' +
+                            location.name +
+                            '</a></h4><div class="store-address" ><svg xmlns="http://www.w3.org/2000/svg" width="19.23" height="28" viewBox="0 0 21.23 30"><g transform="translate(0 0)"><path d="M6.789,23.576c1.079,1.719,2.246,3.8,3.4,5.825.427.747.813.859,1.326-.027,1.113-1.931,2.207-3.931,3.359-5.8,3.5-5.661,9.223-11.181,4.67-18.8C15.5-1.987,4.5-1.265,1.216,5.034c-3.769,7.219,2.117,13.039,5.574,18.542Z" fill="#fff" fill-rule="evenodd" /><path d="M10.61,6.247a4.116,4.116,0,1,1-4.116,4.116A4.117,4.117,0,0,1,10.61,6.247Z" fill="#337DC6" fill-rule="evenodd" /></g></svg><p>' + `{{#if (and address.line1 address.line2)}}` + '<p>' + location.address.line1 + '</p>' + '<p>' + location.address.line2 + '</p>' + '<p><span>' + location.address.city + '</span><span>' + address.postalCode + '</span></p>'
+                            + `{{else}}` + '<p>' + location.address.line1 + '</p>' + '<p>' + location.address.city + '</p>' + '<p><span>' + location.address.postalCode + '</span></p>'
+                            + `{{/if}}` + '</div>' + mainPhone1 + '<div class="store-link">' + getdirection + '</div></li>';
+                        [].slice
+                            .call(document.querySelectorAll(".location-data") || [])
+                            .forEach(function (el) {
+                                el.innerHTML += locationHTML;
+                            });
+                    }
+                }
+                var splide2 = new Splide('#splide-near', {
+                    perPage: 3,
+                    perMove: 1,
+                    arrows: false,
+                    drag: false,
+                    pagination: false,
+                    lazyLoad: 'nearby',
+                    breakpoints: {
+                        1279: { perPage: 1, drag: true, pagination: true },
+                    },
+                });
+                setTimeout(() => { splide2.mount(); }, "1000");
+            }
+        });
+
+        var entityId = "{{id}}";  
+        
+        var entURL = "https://liveapi.yext.com/v2/accounts/me/entities/" + entityId + '?';
+        var fullURL = `${entURL}api_key=${api_key}&v=${vparam}&limit=${limit}&entityTypes=${entityTypes}`;
+        fetch(fullURL).then(response => response.json()).then(result => {
+            if (!result.errors) {
+                let hours = result.response.hours || [];
+                let takeoutHours = result.response.takeoutHours || [];
+                let deliveryHours = result.response.deliveryHours || [];
+                let c_holiday_name = result.response.c_holiday_name || [];    
+
+                var popupRows = [];
+                var popupDates = [];
+
+                {{#if c_restaurantOrOpeningHours}}
+                if (hours && hours.holidayHours) {
+                    for (let i = 0; i < hours.holidayHours.length; i++) {
+                        const holiday = hours.holidayHours[i];
+                                            
+                        if(typeof holiday.isRegularHours == "undefined" && holiday.date >= dates[0]){
+                            popupRows.push({type:"{{c_restaurantOrOpeningHours}}","data":holiday });
+                            popupDates.push(holiday.date);    
+                        }
+                        // console.log('holiday.date >= dates[0]', holiday.date, dates[0]);
+                        for (let d = 0; d < dates.length; d++) {
+
+                            var dateString = dates[d];
+
+                            if (holiday.date == dateString) {
+                                let holidayDate = new Date(holiday.date).toLocaleDateString();
+
+                                var day_html = '';
+                                if (typeof holiday.openIntervals != 'undefined') {
+
+                                    $('#hours1-div').find('.' + dateString + ' .store-time-main').html('');
+                                    $.each(holiday.openIntervals, function (op, openInterval) {
+
+                                        if (openInterval.start === "00:00" && openInterval.end === "23:59") {
+
+                                            let dayLabel = $('#hours1-div').find('.' + dateString + ' .day').text();
+                                            $('#hours1-div').find('.' + dateString + ' .day').html(dayLabel + ' ( Holiday )');
+                                            $('#hours1-div').find('.' + dateString + ' .store-time-main').html('<div class="store-time !justify-start"><div class="close-hrs">24 Hours</div></div>');
+
+                                        } else {
+
+                                            $('#hours1-div').find('.' + dateString + ' .store-time-main').append('<div class="store-time"><span class="open-hrs"><b class="font-normal block holidayHours">' + formatTimE(openInterval.start) + '</b></span><span class="saprate"> - </span><span class="close-hrs"><b class="font-normal block holidayHours">' + formatTimE(openInterval.end) + '</b></span></div>');
+
+                                            $('#hours1-div').find('.' + dateString + ' .store-time-main').append('');
+                                        }
+                                    });
+
+                                    let dayLabel = $('#hours1-div').find('.' + dateString + ' .day').text();
+                                    $('#hours1-div').find('.' + dateString + ' .day').html(dayLabel + '<p> ( Holiday )</p>');
+
+
+                                } else if (holiday.isClosed === true) {
+
+                                    let dayLabel = $('#hours1-div').find('.' + dateString + ' .day').text();
+                                    $('#hours1-div').find('.' + dateString + ' .day').html(dayLabel + '<p> ( Holiday )</p>');
+
+                                    $('#hours1-div').find('.' + dateString + ' .store-time-main').html('<div class="store-time !justify-start"><div class="close-hrs">Closed</div></div>');
+
+                                } else if (holiday.is247 === true) {
+
+                                    let dayLabel = $('#hours1-div').find('.' + dateString + ' .day').text();
+                                    $('#hours1-div').find('.' + dateString + ' .day').html(dayLabel + ' ( Holiday )');
+                                    $('#hours1-div').find('.' + dateString + ' .store-time-main').html('<div class="store-time !justify-start"><div class="close-hrs">24 Hours</div></div>');
+
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+                {{/if}}
+
+                if (takeoutHours && takeoutHours.holidayHours) {
+                    for (let i = 0; i < takeoutHours.holidayHours.length; i++) {
+                        const holiday = takeoutHours.holidayHours[i];
+
+                        
+                        if(typeof holiday.isRegularHours == "undefined" && holiday.date >= dates[0]){
+                            popupRows.push({type:"Takeaway Hours","data":holiday }); 
+                            popupDates.push(holiday.date);  
+                        }
+
+                        for (let d = 0; d < dates.length; d++) {
+
+                            var dateString = dates[d];
+
+                            if (holiday.date == dateString) {
+                                let holidayDate = new Date(holiday.date).toLocaleDateString();
+
+                                var day_html = '';
+                                if (typeof holiday.openIntervals != 'undefined') {
+
+                                    $('#hours3-div').find('.' + dateString + ' .store-time-main').html('');
+                                    $.each(holiday.openIntervals, function (op, openInterval) {
+
+                                        if (openInterval.start === "00:00" && openInterval.end === "23:59") {
+
+                                            let dayLabel = $('#hours3-div').find('.' + dateString + ' .day').text();
+                                            $('#hours3-div').find('.' + dateString + ' .day').html(dayLabel + ' ( Holiday )');
+                                            $('#hours3-div').find('.' + dateString + ' .store-time-main').html('<div class="store-time !justify-start"><div class="close-hrs">24 Hours</div></div>');
+
+                                        } else {
+
+                                            $('#hours3-div').find('.' + dateString + ' .store-time-main').append('<div class="store-time"><span class="open-hrs"><b class="font-normal block holidayHours">' + formatTimE(openInterval.start) + '</b></span><span class="saprate"> - </span><span class="close-hrs"><b class="font-normal block holidayHours">' + formatTimE(openInterval.end) + '</b></span></div>');
+
+                                            $('#hours3-div').find('.' + dateString + ' .store-time-main').append('');
+                                        }
+                                    });
+
+                                    let dayLabel = $('#hours3-div').find('.' + dateString + ' .day').text();
+                                    $('#hours3-div').find('.' + dateString + ' .day').html(dayLabel + '<p> ( Holiday )</p>');
+
+
+                                } else if (holiday.isClosed === true) {
+
+                                    let dayLabel = $('#hours3-div').find('.' + dateString + ' .day').text();
+                                    $('#hours3-div').find('.' + dateString + ' .day').html(dayLabel + '<p> ( Holiday )</p>');
+
+                                    $('#hours3-div').find('.' + dateString + ' .store-time-main').html('<div class="store-time !justify-start"><div class="close-hrs">Closed</div></div>');
+
+                                } else if (holiday.is247 === true) {
+
+                                    let dayLabel = $('#hours3-div').find('.' + dateString + ' .day').text();
+                                    $('#hours3-div').find('.' + dateString + ' .day').html(dayLabel + ' ( Holiday )');
+                                    $('#hours3-div').find('.' + dateString + ' .store-time-main').html('<div class="store-time !justify-start"><div class="close-hrs">24 Hours</div></div>');
+
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+
+                if (deliveryHours && deliveryHours.holidayHours) {
+                    for (let i = 0; i < deliveryHours.holidayHours.length; i++) {
+                        const holiday = deliveryHours.holidayHours[i];
+                        
+                        if(typeof holiday.isRegularHours == "undefined" && holiday.date >= dates[0]){
+                            popupRows.push({type:"Delivery Hours","data":holiday });
+                            popupDates.push(holiday.date);                          
+                        }
+
+                        for (let d = 0; d < dates.length; d++) {
+
+                            var dateString = dates[d];
+
+                            if (holiday.date == dateString) {
+                                let holidayDate = new Date(holiday.date).toLocaleDateString();
+
+                                var day_html = '';
+                                if (typeof holiday.openIntervals != 'undefined') {
+
+                                    $('#hours2-div').find('.' + dateString + ' .store-time-main').html('');
+                                    $.each(holiday.openIntervals, function (op, openInterval) {
+
+                                        if (openInterval.start === "00:00" && openInterval.end === "23:59") {
+
+                                            let dayLabel = $('#hours2-div').find('.' + dateString + ' .day').text();
+                                            $('#hours2-div').find('.' + dateString + ' .day').html(dayLabel + ' ( Holiday )');
+                                            $('#hours2-div').find('.' + dateString + ' .store-time-main').html('<div class="store-time !justify-start"><div class="close-hrs">24 Hours</div></div>');
+
+                                        } else {
+
+                                            $('#hours2-div').find('.' + dateString + ' .store-time-main').append('<div class="store-time"><span class="open-hrs"><b class="font-normal block holidayHours">' + formatTimE(openInterval.start) + '</b></span><span class="saprate"> - </span><span class="close-hrs"><b class="font-normal block holidayHours">' + formatTimE(openInterval.end) + '</b></span></div>');
+
+                                            $('#hours2-div').find('.' + dateString + ' .store-time-main').append('');
+                                        }
+                                    });
+
+                                    let dayLabel = $('#hours2-div').find('.' + dateString + ' .day').text();
+                                    $('#hours2-div').find('.' + dateString + ' .day').html(dayLabel + '<p> ( Holiday )</p>');
+
+
+                                } else if (holiday.isClosed === true) {
+
+                                    let dayLabel = $('#hours2-div').find('.' + dateString + ' .day').text();
+                                    $('#hours2-div').find('.' + dateString + ' .day').html(dayLabel + '<p> ( Holiday )</p>');
+
+                                    $('#hours2-div').find('.' + dateString + ' .store-time-main').html('<div class="store-time !justify-start"><div class="close-hrs">Closed</div></div>');
+
+                                } else if (holiday.is247 === true) {
+
+                                    let dayLabel = $('#hours2-div').find('.' + dateString + ' .day').text();
+                                    $('#hours2-div').find('.' + dateString + ' .day').html(dayLabel + ' ( Holiday )');
+                                    $('#hours2-div').find('.' + dateString + ' .store-time-main').html('<div class="store-time !justify-start"><div class="close-hrs">24 Hours</div></div>');
+
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+
+                var daysString = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; 	
+                if(popupDates.length > 0){
+
+                    popupDates  = removewithfilter(popupDates);
+
+                    popupDates.sort();
+
+                    var popupHtml = ' <h4>{{#if c_holiday_pop_up_title}}{{c_holiday_pop_up_title}}{{else}}Holiday Hours{{/if}}</h4><div class="pop-up-holyhrs  bg-blue-primary border border-blue-primary text-white"><div class="date-type">Date</div> <div class="holi-type"> <div>Services</div> <div> Opening Hours</div> </div> </div>';
+                    for (let p = 0; p < popupDates.length; p++) {
+                        var popupDate = popupDates[p];
+                        
+                        let options = { year: 'numeric', month: 'short', day: 'numeric' };                       
+                        let dateDay = new Date(popupDate); 
+                        let dateDayName = dateDay.toLocaleDateString("en-US", options); 
+                        
+                        var dayName = daysString[dateDay.getDay()];
+
+
+                        popupHtml += '<div class="pop-up-holyhrs  holyhrsDates" data-date="'+popupDate+'">';
+
+                        let holidayMessages = '';    
+                        if(c_holiday_name.length > 0){
+                             for (let h = 0; h < c_holiday_name.length; h++) {
+                                if(popupDate == c_holiday_name[h].holidayDate){
+                                    holidayMessages = c_holiday_name[h].holidayName;
+                                }
+                             }
+                        }    
+
+                        popupHtml += '<div class="date-type"><p>'+dateDayName+', '+dayName+'</p><p class="font-bold">'+holidayMessages+'</p></div>';
+                        // popupHtml += '<div class="holyhrsDay">'+dayName+'</div>';
+                        
+                        popupHtml += '<div class="timing-content">';
+
+                        if(popupRows.length >0){    
+                            for (let r = 0; r < popupRows.length; r++) {
+                                if(popupDate == popupRows[r].data.date){
+                                    popupHtml += '<div class="store-time holi-content !justify-start">';
+                                    popupHtml += '<div class="hours-type">'+popupRows[r].type+'</div>';
+                                    popupHtml += '<div>';    
+                                    if (typeof popupRows[r].data.openIntervals != 'undefined') {                                    
+                                        $.each(popupRows[r].data.openIntervals, function (op, openInterval) {
+                                            if (openInterval.start === "00:00" && openInterval.end === "23:59") {
+                                                popupHtml += '<div class="24-hrs">Open 24 Hours</div>';
+                                            } else {
+                                                popupHtml += '<div class="store-time store-time-inner ">';
+                                                popupHtml += '<span class="open-hrs">'+formatTimE(openInterval.start)+'</span>';
+                                                popupHtml += '<span class="saprate"> - </span>';
+                                                popupHtml += '<span class="close-hrs">'+formatTimE(openInterval.end)+'</span>';
+                                                popupHtml += '</div>';
+                                            }
+                                        });
+                                    } else if (popupRows[r].data.isClosed === true) {
+                                        popupHtml += '<div class="close-hrs close-hrs-inner ">Closed</div>';
+                                    } else if (popupRows[r].data.is247 === true) {
+                                        popupHtml += '<div class="24-hrs">Open 24 Hours</div>';
+                                    }
+                                    popupHtml += '</div>';
+                                    popupHtml += '</div>';
+                                }
+                            }
+                        }
+                        popupHtml += '</div>';
+                        popupHtml += '</div>';
+                    }
+                    $('#holidayHours-popup .modal-body').html(popupHtml);
+                    $('.holiday-cta').removeClass("hidden");
+                }else{
+                    $('.holiday-cta').addClass("hidden");
+                }
+            }
+        });
+    });
+
+    function removewithfilter(arr) {
+        let outputArray = arr.filter(function(v, i, self)
+        {
+            return i == self.indexOf(v);
+        });         
+        return outputArray;
+    }
+</script>

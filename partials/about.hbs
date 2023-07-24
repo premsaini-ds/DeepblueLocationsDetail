@@ -1,0 +1,27 @@
+{{#if c_heading}}
+<div class="about-sec">
+    <div class="container-custom mx-auto flex flex-wrap">
+		{{#if c_images}}
+        <div class="w-full lg:w-2/5 xl:w-[47%] relative lg:absolute lg:min-h-[450px] left-0 lg:h-full ">
+            <div id="splide" class="splide lg:-mx-[15px] h-full">
+                <div class="splide__track h-full">
+                    <ul class="splide__list h-full">                        
+                        {{#each c_images}}
+                        <li class="splide__slide h-full">
+                            <div class="slide-img h-full"><img src="{{url}}" class="block w-full max-h-full  h-full object-cover"
+                                    width="754" height="531" alt="{{url}}" title="{{url}}" /></div>
+                        </li>
+                        {{/each}}                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+		{{/if}}
+        <div class="w-full overflow-hidden overflow-visible {{#if c_images}} lg:w-3/5 xl:w-[50.6%] {{else}} about-no-image {{/if}} about-content ml-auto">
+            <h3>{{c_heading}}</h3>
+            <b>{{c_subHeading}}</b>
+            <div>{{convertRTFToHTML c_description}}</div>
+        </div>
+    </div>
+</div>
+{{/if}}
