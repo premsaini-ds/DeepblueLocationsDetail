@@ -8,8 +8,7 @@ module.exports = {
     main: "./src/main.js",
 	  analytics: "./src/analytics.js",
     util: "./src/util.js",
-    site: "./src/site.js",
-    instafeed: "./src/instafeed.js" 
+    site: "./src/site.js"
   },
   output: {
     filename: "[name].js",
