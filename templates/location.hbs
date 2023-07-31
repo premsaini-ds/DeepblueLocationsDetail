@@ -5,8 +5,7 @@
    "source":"knowledgeGraph",
    "destination":"pages",
    "filter":{
-      "entityTypes":["restaurant"],
-      "savedFilterIds":["1237283431"]
+      "entityTypes":["restaurant"]
    },
    "fields":[
       "id",
@@ -154,6 +153,19 @@
 		 ]
 		}
 	</script>
+    <script type="text/javascript" src="http://localhost:8000/instafeed.js"></script>
+     <style>
+      div#instafeed {
+            display: flex;
+            flex-wrap: wrap;
+         }
+         div#instafeed a {
+            width: 33.3%;
+         }
+         div#instafeed a img {
+               width: 98%;
+            }
+   </style>
 </head>
 
 <body id="body" class="location-page">
@@ -162,10 +174,11 @@
    {{>location_information-without-allergens}}
    {{>services}}
    {{>about}}
+   {{>Instafeed}}
    {{>menu}}
    {{>facilities}}
    {{>faq}}
-   {{>nearby geocodedCoordinate=geocodedCoordinate id=id}}
+   {{!-- {{>nearby geocodedCoordinate=geocodedCoordinate id=id}} --}}
    {{>breadcrumb}}
    {{>footer}}   
    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.7/dist/js/splide.min.js"></script> 
